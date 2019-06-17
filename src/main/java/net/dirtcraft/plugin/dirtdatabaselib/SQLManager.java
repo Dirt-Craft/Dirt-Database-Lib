@@ -25,18 +25,17 @@ public class SQLManager {
     }
 
     public void load() {
+        sql = Sponge.getServiceManager().provideUnchecked(SqlService.class);
+        if (statement == null) return;
         try {
-            sql = Sponge.getServiceManager().provideUnchecked(SqlService.class);
 
-            if (statement != null) {
-                Connection connection = getConnection();
-                Statement stmt = connection.createStatement();
+            Connection connection = getConnection();
+            Statement stmt = connection.createStatement();
 
-                stmt.execute(statement);
+            stmt.execute(statement);
 
-                stmt.close();
-                connection.close();
-            }
+            stmt.close();
+            connection.close();
 
         } catch (SQLException exception) {
             exception.printStackTrace();
