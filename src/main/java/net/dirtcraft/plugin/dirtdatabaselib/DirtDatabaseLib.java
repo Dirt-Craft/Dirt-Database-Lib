@@ -41,7 +41,6 @@ public class DirtDatabaseLib {
     private PluginContainer container;
 
     private static DirtDatabaseLib instance;
-    private static SQLManager sqlManager;
 
     @Listener (order = Order.FIRST)
     public void onPreInit(GamePreInitializationEvent event) {
@@ -49,12 +48,9 @@ public class DirtDatabaseLib {
         this.configManager = new ConfigManager(loader);
     }
 
-    public static void loadSQL(String statement, String database, Path directory) {
-        sqlManager = new SQLManager(statement, database, directory);
+    public static Connection getConnection(String statement, String database, Path directory) {
+        SQLManager sqlManager = new SQLManager(statement, database, directory);
         sqlManager.load();
-    }
-
-    public static Connection getConnection() {
         return sqlManager.getConnection();
     }
 

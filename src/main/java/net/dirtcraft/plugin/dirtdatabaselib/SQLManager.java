@@ -26,6 +26,7 @@ public class SQLManager {
 
     public void load() {
         sql = Sponge.getServiceManager().provideUnchecked(SqlService.class);
+
         if (statement == null) return;
         try {
 
