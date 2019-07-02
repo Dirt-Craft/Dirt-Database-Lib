@@ -8,51 +8,21 @@ import java.io.File;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class SQLManager {
 
-    private static SqlService sql;
+    private static SqlService sql = Sponge.getServiceManager().provideUnchecked(SqlService.class);
 
-    private final String statement;
-    private final String database;
-    private final Path directory;
-
-    public SQLManager(String statement, String database, Path directory) {
-        this.statement = statement;
-        this.database = database;
-        this.directory = directory;
-    }
-
-    public void load() {
-        sql = Sponge.getServiceManager().provideUnchecked(SqlService.class);
-
-        if (statement == null) return;
+    public static Connection getConnection(String database, Path directory) {
         try {
-
-            Connection connection = getConnection();
-            Statement stmt = connection.createStatement();
-
-            stmt.execute(statement);
-
-            stmt.close();
-            connection.close();
-
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    public Connection getConnection() {
-        try {
-            return sql.getDataSource(getURI()).getConnection();
+            return sql.getDataSource(getURI(database, directory)).getConnection();
         } catch (SQLException exception) {
             exception.printStackTrace();
             return null;
         }
     }
 
-    private String getURI() {
+    private static String getURI(String database, Path directory) {
 
         if (database != null) {
             return "jdbc:mariadb://" + SQLConfiguration.Database.IP +
