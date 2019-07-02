@@ -50,8 +50,10 @@ public class DirtDatabaseLib {
     }
 
     public static Connection getConnection(String statement, String database, Path directory) {
-        if (sqlManager == null) sqlManager = new SQLManager(statement, database, directory);
-        sqlManager.load();
+        if (sqlManager == null) {
+            sqlManager = new SQLManager(statement, database, directory);
+            sqlManager.load();
+        }
         return sqlManager.getConnection();
     }
 
