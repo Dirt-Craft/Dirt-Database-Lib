@@ -9,6 +9,7 @@ import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.game.state.GameConstructionEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
@@ -42,8 +43,8 @@ public class DirtDatabaseLib {
 
     private static DirtDatabaseLib instance;
 
-    @Listener (order = Order.FIRST)
-    public void onPreInit(GamePreInitializationEvent event) {
+    @Listener (order = Order.PRE)
+    public void onPreInit(GameConstructionEvent event) {
         instance = this;
         this.configManager = new ConfigManager(loader);
     }
